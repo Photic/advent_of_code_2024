@@ -38,7 +38,7 @@ pub(crate) fn day1_historian_hysteria() {
 }
 
 pub(crate) fn day1_2_historian_hysteria() {
-    println!("Running day1");
+    println!("Running day1.2");
 
     let timer = Instant::now();
 

@@ -1,6 +1,9 @@
 use std::env;
 
-use days::day1_historian_hysteria::{day1_2_historian_hysteria, day1_historian_hysteria};
+use days::{
+    day1_historian_hysteria::{day1_2_historian_hysteria, day1_historian_hysteria},
+    day2_red_nosed_reports::{day2_2_red_nosed_reports, day2_red_nosed_reports},
+};
 
 mod days;
 
@@ -13,6 +16,8 @@ fn main() {
             match args[2].as_str() {
                 "1" => day1_historian_hysteria(),
                 "1.2" => day1_2_historian_hysteria(),
+                "2" => day2_red_nosed_reports(),
+                "2.2" => day2_2_red_nosed_reports(),
                 _ => panic!("Not a valid date"),
             }
         }
