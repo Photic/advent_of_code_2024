@@ -1,7 +1,9 @@
-use std::{fs::File, io::Read};
+use std::{fs::File, io::Read, time::Instant};
 
 pub(crate) fn day1_historian_hysteria() {
     println!("Running day1");
+
+    let timer = Instant::now();
 
     let mut file = match File::open("./src/inputs/day1.txt") {
         Ok(day1) => day1,
@@ -32,11 +34,13 @@ pub(crate) fn day1_historian_hysteria() {
         output_result += (number - right_numbers[index]).abs();
     }
 
-    println!("Answer: {}", output_result);
+    println!("Answer: {}, elapsed: {:?}", output_result, timer.elapsed());
 }
 
 pub(crate) fn day1_2_historian_hysteria() {
     println!("Running day1");
+
+    let timer = Instant::now();
 
     let mut file = match File::open("./src/inputs/day1.txt") {
         Ok(day1) => day1,
@@ -67,7 +71,11 @@ pub(crate) fn day1_2_historian_hysteria() {
         similarity_score += number_left * number_appears
     }
 
-    println!("Answer: {}", similarity_score);
+    println!(
+        "Answer: {}, elapsed: {:?}",
+        similarity_score,
+        timer.elapsed()
+    );
 }
 
 fn convert_string_to_double_array(string: &str) -> (Vec<i64>, Vec<i64>) {
