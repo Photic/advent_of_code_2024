@@ -88,11 +88,11 @@ fn convert_string_to_double_array(string: &str) -> (Vec<i64>, Vec<i64>) {
     let mut last_char_was_space: bool = false;
 
     for char in string.chars() {
-        if let Some(_) = char.to_digit(10) {
+        if char.is_ascii_digit() {
             if last_char_was_space {
-                second_number.push_str(&char.to_string());
+                second_number.push(char);
             } else {
-                first_number.push_str(&char.to_string());
+                first_number.push(char);
             }
         } else if char == '\n' {
             last_char_was_space = false;

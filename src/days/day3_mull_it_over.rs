@@ -53,30 +53,30 @@ fn get_muls_from_str(input: &str) -> Vec<Multiply> {
 
     for char in input.chars() {
         if char == 'm' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
         if is_mul.contains("m") && char == 'u' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
         if is_mul.contains("mu") && char == 'l' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
         if is_mul.contains("mul") && char == '(' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
-        if is_mul.contains("mul(") && char.to_digit(10).is_some() {
+        if is_mul.contains("mul(") && char.is_ascii_digit() {
             if getting_first {
-                first.push_str(&char.to_string());
+                first.push(char);
             } else {
-                second.push_str(&char.to_string());
+                second.push(char);
             }
         } else if is_mul.contains("mul(") && char == ',' {
             getting_first = false
@@ -149,23 +149,23 @@ fn get_specific_muls_from_str(input: &str) -> Vec<Multiply> {
 
     for char in input.chars() {
         if char == 'd' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
             continue;
         }
 
         if is_do_dont.contains("d") && char == 'o' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
             continue;
         }
 
         // do
         if is_do_dont.contains("do") && char == '(' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
             continue;
         }
 
         if is_do_dont.contains("do(") && char == ')' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
 
             if is_do_dont.contains("do()") {
                 is_do = true;
@@ -175,31 +175,31 @@ fn get_specific_muls_from_str(input: &str) -> Vec<Multiply> {
 
         // don't()
         if is_do_dont.contains("do") && char == 'n' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
             continue;
         }
 
         // don't()
         if is_do_dont.contains("don") && char == '\'' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
             continue;
         }
 
         // don't()
         if is_do_dont.contains("don'") && char == 't' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
             continue;
         }
 
         // don't()
         if is_do_dont.contains("don't") && char == '(' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
             continue;
         }
 
         // don't()
         if is_do_dont.contains("don't(") && char == ')' {
-            is_do_dont.push_str(&char.to_string());
+            is_do_dont.push(char);
 
             if is_do_dont.contains("don't()") {
                 is_do = false;
@@ -212,30 +212,30 @@ fn get_specific_muls_from_str(input: &str) -> Vec<Multiply> {
         }
 
         if char == 'm' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
         if is_mul.contains("m") && char == 'u' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
         if is_mul.contains("mu") && char == 'l' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
         if is_mul.contains("mul") && char == '(' {
-            is_mul.push_str(&char.to_string());
+            is_mul.push(char);
             continue;
         }
 
-        if is_mul.contains("mul(") && char.to_digit(10).is_some() {
+        if is_mul.contains("mul(") && char.is_ascii_digit() {
             if getting_first {
-                first.push_str(&char.to_string());
+                first.push(char);
             } else {
-                second.push_str(&char.to_string());
+                second.push(char);
             }
         } else if is_mul.contains("mul(") && char == ',' {
             getting_first = false

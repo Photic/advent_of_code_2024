@@ -1,12 +1,16 @@
+#![allow(clippy::needless_return)]
+
 use std::env;
 
 use days::{
     day1_historian_hysteria::{day1_2_historian_hysteria, day1_historian_hysteria},
     day2_red_nosed_reports::{day2_2_red_nosed_reports, day2_red_nosed_reports},
     day3_mull_it_over::{day3_2_mull_it_over, day3_mull_it_over},
+    day4_ceres_search::{day4_2_ceres_search, day4_ceres_search},
 };
 
 mod days;
+mod utils;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -21,6 +25,8 @@ fn main() {
                 "2.2" => day2_2_red_nosed_reports(),
                 "3" => day3_mull_it_over(),
                 "3.2" => day3_2_mull_it_over(),
+                "4" => day4_ceres_search(),
+                "4.2" => day4_2_ceres_search(),
                 _ => panic!("Not a valid date"),
             }
         }

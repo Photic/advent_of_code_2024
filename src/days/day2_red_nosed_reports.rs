@@ -37,7 +37,7 @@ fn get_safe_answers(safe_reports: &mut usize, number_arrays: Vec<Vec<i64>>) {
     }
 }
 
-fn is_safe_report(array: &Vec<i64>) -> bool {
+fn is_safe_report(array: &[i64]) -> bool {
     let mut last_number: i64 = 0;
 
     let mut report_safe = true;
@@ -114,8 +114,8 @@ pub(crate) fn day2_2_red_nosed_reports() {
                     .iter()
                     .enumerate()
                     .filter(|&(i, _)| i != index)
-                    .map(|(_, v)| v.clone())
-                    .collect(),
+                    .map(|(_, v)| *v)
+                    .collect::<Vec<i64>>(),
             ) {
                 safe_reports += 1;
                 break;
@@ -134,8 +134,8 @@ fn convert_string_to_arrays(string: &str) -> Vec<Vec<i64>> {
     let mut current_vector: Vec<i64> = vec![];
 
     for char in string.chars() {
-        if let Some(_) = char.to_digit(10) {
-            number.push_str(&char.to_string());
+        if char.is_ascii_digit() {
+            number.push(char);
         } else if char == '\n' {
             current_vector.push(number.parse().expect("Could not parse number"));
             number.clear();
