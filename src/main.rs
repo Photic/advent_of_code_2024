@@ -3,6 +3,7 @@ use std::env;
 use days::{
     day1_historian_hysteria::{day1_2_historian_hysteria, day1_historian_hysteria},
     day2_red_nosed_reports::{day2_2_red_nosed_reports, day2_red_nosed_reports},
+    day3_mull_it_over::{day3_2_mull_it_over, day3_mull_it_over},
 };
 
 mod days;
@@ -18,6 +19,8 @@ fn main() {
                 "1.2" => day1_2_historian_hysteria(),
                 "2" => day2_red_nosed_reports(),
                 "2.2" => day2_2_red_nosed_reports(),
+                "3" => day3_mull_it_over(),
+                "3.2" => day3_2_mull_it_over(),
                 _ => panic!("Not a valid date"),
             }
         }
