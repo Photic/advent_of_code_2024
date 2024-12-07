@@ -6,7 +6,7 @@ pub(crate) fn start_day(path: &str) -> (String, Instant) {
     let mut file = match File::open(path) {
         Ok(day1) => day1,
         Err(e) => {
-            panic!("Could not open day1 files, error: {e}");
+            panic!("Could not open dayX file, error: {e}");
         }
     };
 

@@ -109,14 +109,9 @@ pub(crate) fn day2_2_red_nosed_reports() {
         }
 
         for (index, _) in array.iter().enumerate() {
-            if is_safe_report(
-                &array
-                    .iter()
-                    .enumerate()
-                    .filter(|&(i, _)| i != index)
-                    .map(|(_, v)| *v)
-                    .collect::<Vec<i64>>(),
-            ) {
+            let mut new_array = array.clone();
+            new_array.remove(index);
+            if is_safe_report(&new_array) {
                 safe_reports += 1;
                 break;
             }
