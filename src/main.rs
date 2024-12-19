@@ -7,7 +7,8 @@ use days::{
     day2_red_nosed_reports::{day2_2_red_nosed_reports, day2_red_nosed_reports},
     day3_mull_it_over::{day3_2_mull_it_over, day3_mull_it_over},
     day4_ceres_search::{day4_2_ceres_search, day4_ceres_search},
-    day5_print_queue::day5_print_queue,
+    day5_print_queue::{day5_2_print_queue, day5_print_queue},
+    day6_guard_gallivant::{day6_2_guard_gallivant, day6_guard_gallivant},
 };
 
 mod days;
@@ -29,6 +30,9 @@ fn main() {
                 "4" => day4_ceres_search(),
                 "4.2" => day4_2_ceres_search(),
                 "5" => day5_print_queue(),
+                "5.2" => day5_2_print_queue(),
+                "6" => day6_guard_gallivant(),
+                "6.2" => day6_2_guard_gallivant(),
                 _ => panic!("Not a valid day"),
             }
         }

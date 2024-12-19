@@ -3,3 +3,4 @@ pub(crate) mod day2_red_nosed_reports;
 pub(crate) mod day3_mull_it_over;
 pub(crate) mod day4_ceres_search;
 pub(crate) mod day5_print_queue;
+pub(crate) mod day6_guard_gallivant;
