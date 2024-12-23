@@ -332,10 +332,6 @@ fn just_keep_swimming(
             .get(next_position.y)
             .unwrap();
 
-        // if position == position_before_obstical {
-        //     seen_obsitcal_position += 1;
-        // }
-
         if next_square == 'O' && obstical_direction.is_none() {
             obstical_direction = Some(current_direction.clone());
             loop_positions.insert(position.clone());
@@ -346,13 +342,6 @@ fn just_keep_swimming(
                 result += 1;
             }
         }
-
-        // if result == 2 || seen_obsitcal_position == 3 {
-        //     if seen_obsitcal_position == 3 {
-        //         result = 2;
-        //     }
-        //     break;
-        // }
 
         if seen_position > loop_positions.len() * 2 {
             result = 2;
