@@ -257,6 +257,7 @@ pub(crate) fn day6_2_guard_gallivant() {
 
     let infinite_loops: Mutex<Vec<(XY, Vec<XY>)>> = Mutex::new(vec![]);
 
+    // Goes from 10 seconds to 3 seconds using rayon.
     remove_duplicates_maintain_order(all_vectors.clone())
         .par_iter()
         .for_each(|obstacle_vector| {
@@ -425,8 +426,7 @@ fn just_keep_swimming(
         }
 
         if !direction_changed {
-            // solve_direction(&mut position, &current_direction);
-            move_position(current_2d_array, &mut position, &current_direction);
+            solve_position(&mut position, &current_direction);
         }
 
         direction_changed = false;
