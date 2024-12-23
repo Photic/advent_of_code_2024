@@ -17,6 +17,22 @@ pub(crate) fn start_day(path: &str) -> (String, Instant) {
     (content, timer)
 }
 
-pub(crate) fn end_day(result: &str, timer: &Instant) {
-    println!("Answer: {}, elapsed: {:?}", result, timer.elapsed());
+pub(crate) enum ResultType {
+    // Str(String),
+    Num(usize),
 }
+
+pub(crate) fn end_day(result: &ResultType, timer: &Instant) {
+    match result {
+        // ResultType::Str(s) => println!("Answer: {}, elapsed: {:?}", s, timer.elapsed()),
+        ResultType::Num(n) => println!("Answer: {}, elapsed: {:?}", n, timer.elapsed()),
+    }
+}
+
+// pub(crate) fn end_day(result: &str, timer: &Instant) {
+//     println!("Answer: {}, elapsed: {:?}", result, timer.elapsed());
+// }
+
+// pub(crate) fn end_day_number(result: &usize, timer: &Instant) {
+//     println!("Answer: {}, elapsed: {:?}", result, timer.elapsed());
+// }

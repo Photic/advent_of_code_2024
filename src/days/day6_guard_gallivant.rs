@@ -2,7 +2,7 @@ use std::{collections::HashSet, sync::Mutex, vec};
 
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
-use crate::utils::get_utility::{end_day, start_day};
+use crate::utils::get_utility::{end_day, start_day, ResultType};
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Copy, Ord, PartialOrd)]
 struct XY {
@@ -135,7 +135,7 @@ pub(crate) fn day6_guard_gallivant() {
         }
     }
 
-    end_day(&result.to_string(), &timer);
+    end_day(&ResultType::Num(result), &timer);
 }
 
 pub(crate) fn day6_2_guard_gallivant() {
@@ -286,7 +286,7 @@ pub(crate) fn day6_2_guard_gallivant() {
     //     print_onto_2d_array(&coordinates.0, &coordinates.1, obstical_2d_array.clone());
     // }
 
-    end_day(&unique_loops.len().to_string(), &timer);
+    end_day(&ResultType::Num(unique_loops.len()), &timer);
 }
 
 fn just_keep_swimming(

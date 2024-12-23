@@ -1,4 +1,4 @@
-use crate::utils::get_utility::{end_day, start_day};
+use crate::utils::get_utility::{end_day, start_day, ResultType};
 
 pub(crate) fn day4_ceres_search() {
     println!("Running day4 XMAS");
@@ -11,7 +11,7 @@ pub(crate) fn day4_ceres_search() {
 
     let result = find_xmas(&arrays);
 
-    end_day(&result.to_string(), &timer);
+    end_day(&ResultType::Num(result), &timer);
 }
 
 pub(crate) fn day4_2_ceres_search() {
@@ -25,7 +25,7 @@ pub(crate) fn day4_2_ceres_search() {
 
     let result = find_x_mas(&arrays);
 
-    end_day(&result.to_string(), &timer);
+    end_day(&ResultType::Num(result), &timer);
 }
 
 fn find_x_mas(arrays: &[Vec<char>]) -> usize {
