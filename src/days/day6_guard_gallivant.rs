@@ -294,7 +294,6 @@ fn just_keep_swimming(
     mut current_direction: Direction,
 ) -> (usize, Vec<XY>) {
     let mut result = 0;
-    let mut steps = 0;
 
     let mut obstical_direction: Option<Direction> = None;
 
@@ -425,20 +424,12 @@ fn just_keep_swimming(
             }
         }
 
-        steps += 1;
-
-        // print_2d_array(&current_2d_array);
-
         if !direction_changed {
             // solve_direction(&mut position, &current_direction);
             move_position(current_2d_array, &mut position, &current_direction);
         }
 
         direction_changed = false;
-
-        if steps > 25000 {
-            break;
-        }
     }
 
     // println!("Loop Positions: {:?}", loop_positions);
