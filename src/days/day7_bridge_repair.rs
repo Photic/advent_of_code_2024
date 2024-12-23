@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use rand::Rng;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
-use crate::utils::get_utility::{end_day, start_day, ResultType};
+use crate::utils::get_utility::{end_day, start_day};
 
 pub(crate) fn day7_bridge_repair() {
     println!("Running day7 Bridge Repair");
@@ -66,7 +66,7 @@ pub(crate) fn day7_bridge_repair() {
         })
         .sum();
 
-    end_day(&ResultType::Num(result), &timer);
+    end_day(&result, &timer);
 }
 
 pub(crate) fn day7_2_bridge_repair() {

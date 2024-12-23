@@ -1,4 +1,4 @@
-use crate::utils::get_utility::{end_day, start_day, ResultType};
+use crate::utils::get_utility::{end_day, start_day};
 
 pub(crate) fn day5_print_queue() {
     println!("Running day5 Print Queue");
@@ -22,7 +22,7 @@ pub(crate) fn day5_print_queue() {
         }
     }
 
-    end_day(&ResultType::Num(result), &timer);
+    end_day(&result, &timer);
 }
 
 fn produce_pages_that_fits(
@@ -115,7 +115,7 @@ pub(crate) fn day5_2_print_queue() {
         }
     }
 
-    end_day(&ResultType::Num(result), &timer);
+    end_day(&result, &timer);
 }
 
 #[derive(Debug, Clone, PartialEq)]
