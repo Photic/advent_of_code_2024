@@ -79,31 +79,43 @@ pub(crate) fn day7_2_bridge_repair() {
     let result: usize = equation_map
         .par_iter()
         .map(|equation| {
-            let iterations_max = 3_usize.pow((equation.1.len() - 1) as u32);
             let mut equations_tested: HashSet<Vec<char>> = HashSet::new();
-            let mut rng = rand::thread_rng();
 
             if equation.0 == equation.1.iter().sum() {
                 return equation.0;
             }
 
-            if equation.0 == equation.1.iter().fold(1, |acc, &x| acc * x) {
+            if equation.0 == equation.1.iter().product() {
                 return equation.0;
             }
 
-            loop {
-                let test_len = equation.1.len() - 1;
-                let mut add_multiply_combine = vec![];
+            let operators = vec!['+', '*', '>'];
+            let test_len = equation.1.len() - 1;
 
-                for _ in 0..test_len {
-                    let rand_choice = rng.gen_range(0..3);
-                    match rand_choice {
-                        0 => add_multiply_combine.push('+'),
-                        1 => add_multiply_combine.push('*'),
-                        _ => add_multiply_combine.push('>'),
+            // DFS
+            let generate_combinations = |len: usize| -> Vec<Vec<char>> {
+                let mut combinations = vec![];
+                let mut stack = vec![(vec![], 0)];
+
+                // Loop until the stack is empty
+                while let Some((current, index)) = stack.pop() {
+                    if index == len {
+                        combinations.push(current);
+                    } else {
+                        for &op in &operators {
+                            let mut new_current = current.clone();
+                            new_current.push(op);
+                            stack.push((new_current, index + 1));
+                        }
                     }
                 }
 
+                combinations
+            };
+
+            let all_combinations = generate_combinations(test_len);
+
+            for add_multiply_combine in all_combinations {
                 if !equations_tested.contains(&add_multiply_combine) {
                     equations_tested.insert(add_multiply_combine.clone());
 
@@ -114,14 +126,15 @@ pub(crate) fn day7_2_bridge_repair() {
                             .get(index - 1)
                             .expect("Could not get operator");
 
-                        if *operator == '+' {
-                            equation_result += number;
-                        } else if *operator == '*' {
-                            equation_result *= number;
-                        } else if *operator == '>' {
-                            equation_result = format!("{}{}", equation_result, number)
-                                .parse()
-                                .expect("Could not parse number");
+                        match *operator {
+                            '+' => equation_result += number,
+                            '*' => equation_result *= number,
+                            '>' => {
+                                equation_result = format!("{}{}", equation_result, number)
+                                    .parse()
+                                    .expect("Could not parse number");
+                            }
+                            _ => unreachable!(),
                         }
                     }
 
@@ -129,11 +142,9 @@ pub(crate) fn day7_2_bridge_repair() {
                         return equation_result;
                     }
                 }
-
-                if equations_tested.len() == iterations_max {
-                    return 0;
-                }
             }
+
+            return 0;
         })
         .sum();
 
