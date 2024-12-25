@@ -129,31 +129,6 @@ pub(crate) fn day9_2_disk_fragmenter() {
     end_day(&get_checksum_of_files_disk(&disk_map_files), &timer);
 }
 
-fn get_checksum_of_files_disk(disk_map_files: &Vec<FileBlock>) -> usize {
-    let empty_block = ".".to_string();
-
-    let mut result: usize = 0;
-
-    let mut disk_map: Vec<DiskBlock> = vec![];
-
-    // Disk map files to disk_map
-    for block in disk_map_files {
-        for _ in 0..block.size {
-            disk_map.push(DiskBlock {
-                content: block.content.clone(),
-            });
-        }
-    }
-
-    for (id, block) in disk_map.iter().enumerate() {
-        if block.content != empty_block {
-            result += id * block.content.parse::<usize>().expect("Could not parse int");
-        }
-    }
-
-    result
-}
-
 fn move_files_left(disk_map_files: &mut Vec<FileBlock>) {
     let empty_block = ".".to_string();
 
@@ -187,6 +162,31 @@ fn move_files_left(disk_map_files: &mut Vec<FileBlock>) {
             }
         }
     }
+}
+
+fn get_checksum_of_files_disk(disk_map_files: &Vec<FileBlock>) -> usize {
+    let empty_block = ".".to_string();
+
+    let mut result: usize = 0;
+
+    let mut disk_map: Vec<DiskBlock> = vec![];
+
+    // Disk map files to disk_map
+    for block in disk_map_files {
+        for _ in 0..block.size {
+            disk_map.push(DiskBlock {
+                content: block.content.clone(),
+            });
+        }
+    }
+
+    for (id, block) in disk_map.iter().enumerate() {
+        if block.content != empty_block {
+            result += id * block.content.parse::<usize>().expect("Could not parse int");
+        }
+    }
+
+    result
 }
 
 fn content_to_disk_map_whole_files(input: &str) -> Vec<FileBlock> {
