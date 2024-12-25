@@ -23,7 +23,7 @@ pub(crate) fn day7_bridge_repair() {
                 return equation.0;
             }
 
-            if equation.0 == equation.1.iter().fold(1, |acc, &x| acc * x) {
+            if equation.0 == equation.1.iter().product::<usize>() {
                 return equation.0;
             }
 
@@ -157,10 +157,10 @@ fn create_equation_map(input: &str) -> Vec<(usize, Vec<usize>)> {
     let split_input = input.split('\n');
 
     for line in split_input {
-        let values = line.split(':').into_iter().collect::<Vec<&str>>();
+        let values = line.split(':').collect::<Vec<&str>>();
 
         let test_value: usize = values
-            .get(0)
+            .first()
             .unwrap()
             .parse()
             .expect("Could not parse to usize");
@@ -170,7 +170,6 @@ fn create_equation_map(input: &str) -> Vec<(usize, Vec<usize>)> {
             .unwrap()
             .trim()
             .split(' ')
-            .into_iter()
             .map(|str| str.parse::<usize>().expect("Could not parse int"))
             .collect();
 

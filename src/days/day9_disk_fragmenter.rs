@@ -17,7 +17,7 @@ pub(crate) fn day9_disk_fragmenter() {
     end_day(&get_checksum(&disk_map), &timer);
 }
 
-fn get_checksum(disk_map: &Vec<DiskBlock>) -> usize {
+fn get_checksum(disk_map: &[DiskBlock]) -> usize {
     let empty_block = ".".to_string();
 
     let mut result: usize = 0;
@@ -31,16 +31,16 @@ fn get_checksum(disk_map: &Vec<DiskBlock>) -> usize {
     result
 }
 
-fn moving_blocks_left(disk_map: &mut Vec<DiskBlock>) {
+fn moving_blocks_left(disk_map: &mut [DiskBlock]) {
     let empty_block = ".".to_string();
 
-    let original_disk_map = disk_map.clone();
+    let original_disk_map = disk_map.to_owned();
     let mut last_location = 0;
 
     for i in (0..original_disk_map.len()).rev() {
         let moving_block = original_disk_map.get(i).unwrap();
         if moving_block.content != empty_block {
-            for (j, block) in disk_map.clone().iter().enumerate().skip(last_location) {
+            for (j, block) in disk_map.to_owned().iter().enumerate().skip(last_location) {
                 if block.content == empty_block {
                     *disk_map.get_mut(j).unwrap() = moving_block.clone();
                     *disk_map.get_mut(i).unwrap() = DiskBlock {
@@ -51,14 +51,14 @@ fn moving_blocks_left(disk_map: &mut Vec<DiskBlock>) {
                 }
             }
 
-            if !check_empty_spaces(&disk_map, &last_location) {
+            if !check_empty_spaces(disk_map, &last_location) {
                 break;
             }
         }
     }
 }
 
-fn check_empty_spaces(disk_map: &Vec<DiskBlock>, last_location: &usize) -> bool {
+fn check_empty_spaces(disk_map: &[DiskBlock], last_location: &usize) -> bool {
     let empty_block = ".".to_string();
 
     for (i, block) in disk_map.iter().enumerate().skip(*last_location) {
@@ -155,12 +155,6 @@ fn get_checksum_of_files_disk(disk_map_files: &Vec<FileBlock>) -> usize {
 }
 
 fn move_files_left(disk_map_files: &mut Vec<FileBlock>) {
-    let mut skip_i: usize = 0;
-
-    return move_files_left_recursive(disk_map_files, &mut skip_i);
-}
-
-fn move_files_left_recursive(disk_map_files: &mut Vec<FileBlock>, skip_i: &mut usize) {
     let empty_block = ".".to_string();
 
     let original_disk_map = disk_map_files.clone();
@@ -188,7 +182,7 @@ fn move_files_left_recursive(disk_map_files: &mut Vec<FileBlock>, skip_i: &mut u
                         },
                     );
 
-                    return move_files_left_recursive(disk_map_files, skip_i);
+                    return move_files_left(disk_map_files);
                 }
             }
         }

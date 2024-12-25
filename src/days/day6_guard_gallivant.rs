@@ -39,7 +39,7 @@ pub(crate) fn day6_guard_gallivant() {
             }
         }
 
-        let mut next_posistion = position.clone();
+        let mut next_posistion = position;
         solve_position(&mut next_posistion, &current_direction);
 
         let next_square = *current_2d_array
@@ -159,9 +159,9 @@ pub(crate) fn day6_2_guard_gallivant() {
     let mut all_vectors: Vec<(Cords, Direction)> = vec![];
 
     let mut direction_changed = false;
-    let starting_position = position.clone();
+    let starting_position = position;
 
-    all_vectors.push((position.clone(), Direction::Up));
+    all_vectors.push((position, Direction::Up));
 
     loop {
         if *current_2d_array
@@ -174,7 +174,7 @@ pub(crate) fn day6_2_guard_gallivant() {
             break;
         }
 
-        let mut next_position = position.clone();
+        let mut next_position = position;
         solve_position(&mut next_position, &current_direction);
 
         let next_square = *current_2d_array
@@ -246,7 +246,7 @@ pub(crate) fn day6_2_guard_gallivant() {
         }
 
         direction_changed = false;
-        all_vectors.push((position.clone(), current_direction.clone()));
+        all_vectors.push((position, current_direction.clone()));
     }
 
     let infinite_loops: Mutex<Vec<(Cords, Vec<Cords>)>> = Mutex::new(vec![]);
@@ -269,7 +269,7 @@ pub(crate) fn day6_2_guard_gallivant() {
 
                 if response.0 >= 2 {
                     let mut infinite_loops = infinite_loops.lock().unwrap();
-                    infinite_loops.push((obstacle_vector.0.clone(), response.1));
+                    infinite_loops.push((obstacle_vector.0, response.1));
                 }
             }
         });
@@ -284,7 +284,7 @@ pub(crate) fn day6_2_guard_gallivant() {
 }
 
 fn just_keep_swimming(
-    current_2d_array: &mut Vec<Vec<char>>,
+    current_2d_array: &mut [Vec<char>],
     mut position: Cords,
     mut current_direction: Direction,
 ) -> (usize, Vec<Cords>) {
@@ -317,7 +317,7 @@ fn just_keep_swimming(
             break;
         }
 
-        let mut next_position = position.clone();
+        let mut next_position = position;
         solve_position(&mut next_position, &current_direction);
 
         let next_square = *current_2d_array
@@ -328,7 +328,7 @@ fn just_keep_swimming(
 
         if next_square == 'O' && obstical_direction.is_none() {
             obstical_direction = Some(current_direction.clone());
-            loop_positions.insert(position.clone());
+            loop_positions.insert(position);
         }
 
         if let Some(o_directoin) = obstical_direction.clone() {
@@ -463,7 +463,7 @@ fn print_onto_2d_array(
     positions: &Vec<Cords>,
     mut current_2d_array: Vec<Vec<char>>,
 ) {
-    println!("");
+    println!();
     println!("obstacle: {:?}", obstical_position);
     println!("positions: {:?}", positions);
     for cords in positions {
@@ -492,7 +492,7 @@ fn solve_position(position: &mut Cords, direction: &Direction) {
     }
 }
 
-fn stop_moving(current_2d_array: &mut Vec<Vec<char>>, position: &Cords) {
+fn stop_moving(current_2d_array: &mut [Vec<char>], position: &Cords) {
     *current_2d_array
         .get_mut(position.x)
         .unwrap()
@@ -500,11 +500,7 @@ fn stop_moving(current_2d_array: &mut Vec<Vec<char>>, position: &Cords) {
         .unwrap() = 'X';
 }
 
-fn move_position(
-    current_2d_array: &mut Vec<Vec<char>>,
-    position: &mut Cords,
-    direction: &Direction,
-) {
+fn move_position(current_2d_array: &mut [Vec<char>], position: &mut Cords, direction: &Direction) {
     *current_2d_array
         .get_mut(position.x)
         .unwrap()

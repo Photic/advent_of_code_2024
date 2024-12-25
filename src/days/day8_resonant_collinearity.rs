@@ -17,7 +17,7 @@ pub(crate) fn day8_resonant_collinearity() {
                 draw_all_possible_anti_nodes(
                     &mut current_2d_array,
                     &NodeValue {
-                        value: possible_node.clone(),
+                        value: *possible_node,
                         cords: Cords { x, y },
                     },
                     &mut anti_node_locations,
@@ -32,16 +32,16 @@ pub(crate) fn day8_resonant_collinearity() {
 }
 
 fn draw_all_possible_anti_nodes(
-    current_2d_array: &mut Vec<Vec<char>>,
+    current_2d_array: &mut [Vec<char>],
     node_value: &NodeValue,
     anti_node_locations: &mut HashSet<Cords>,
 ) {
-    for (x, layer) in current_2d_array.clone().iter().enumerate() {
+    for (x, layer) in current_2d_array.to_owned().iter().enumerate() {
         for (y, node) in layer.iter().enumerate() {
             if *node == node_value.value && (x != node_value.cords.x || y != node_value.cords.y) {
                 if let Some(node) = antinode_cords(&node_value.cords, &Cords { x, y }) {
                     if let Some(row) = current_2d_array.get(node.x) {
-                        if let Some(_) = row.get(node.y) {
+                        if row.get(node.y).is_some() {
                             anti_node_locations.insert(node);
                         }
                     }
@@ -89,7 +89,7 @@ pub(crate) fn day8_2_resonant_collinearity() {
                 solve_all_possible_anti_nodes(
                     &mut current_2d_array,
                     &NodeValue {
-                        value: possible_node.clone(),
+                        value: *possible_node,
                         cords: Cords { x, y },
                     },
                     &mut anti_node_locations,
@@ -132,7 +132,7 @@ fn solve_antinode(
 ) {
     if let Some(node) = antinode_cords(node1, node2) {
         if let Some(row) = current_2d_array.get(node.x) {
-            if let Some(_) = row.get(node.y) {
+            if row.get(node.y).is_some() {
                 anti_node_locations.insert(node);
                 return solve_antinode(current_2d_array, &node, node1, anti_node_locations);
             }
