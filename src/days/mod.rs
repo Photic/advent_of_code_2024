@@ -6,3 +6,4 @@ pub(crate) mod day5_print_queue;
 pub(crate) mod day6_guard_gallivant;
 pub(crate) mod day7_bridge_repair;
 pub(crate) mod day8_resonant_collinearity;
+pub(crate) mod day9_disk_fragmenter;

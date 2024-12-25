@@ -11,6 +11,7 @@ use days::{
     day6_guard_gallivant::{day6_2_guard_gallivant, day6_guard_gallivant},
     day7_bridge_repair::{day7_2_bridge_repair, day7_bridge_repair},
     day8_resonant_collinearity::{day8_2_resonant_collinearity, day8_resonant_collinearity},
+    day9_disk_fragmenter::{day9_2_disk_fragmenter, day9_disk_fragmenter},
 };
 
 mod days;
@@ -39,6 +40,8 @@ fn main() {
                 "7.2" => day7_2_bridge_repair(),
                 "8" => day8_resonant_collinearity(),
                 "8.2" => day8_2_resonant_collinearity(),
+                "9" => day9_disk_fragmenter(),
+                "9.2" => day9_2_disk_fragmenter(),
                 _ => panic!("Not a valid day"),
             }
         }
