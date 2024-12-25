@@ -2,13 +2,7 @@ use std::{collections::HashSet, sync::Mutex, vec};
 
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
-use crate::utils::get_utility::{end_day, start_day};
-
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Copy, Ord, PartialOrd)]
-struct XY {
-    x: usize,
-    y: usize,
-}
+use crate::utils::get_utility::{content_to_2d_array, end_day, print_2d_array, start_day, Cords};
 
 #[derive(PartialEq, Clone, Debug, Eq, Hash)]
 enum Direction {
@@ -23,9 +17,9 @@ pub(crate) fn day6_guard_gallivant() {
 
     let (content, timer) = start_day("./src/inputs/day6.txt");
 
-    let mut current_2d_array = content_to_2d_array(&content);
+    let mut current_2d_array = content_to_2d_array(&content, true);
 
-    let mut position = XY { x: 0, y: 0 };
+    let mut position = Cords { x: 0, y: 0 };
     let mut current_direction = Direction::Up;
     let mut direction_changed = false;
 
@@ -123,7 +117,7 @@ pub(crate) fn day6_guard_gallivant() {
         // print_2d_array(&current_2d_array);
     }
 
-    print_2d_array(&current_2d_array);
+    // print_2d_array(&current_2d_array);
 
     let mut result = 0;
 
@@ -141,10 +135,10 @@ pub(crate) fn day6_guard_gallivant() {
 pub(crate) fn day6_2_guard_gallivant() {
     let (content, timer) = start_day("./src/inputs/day6.txt");
 
-    let mut current_2d_array = content_to_2d_array(&content);
+    let mut current_2d_array = content_to_2d_array(&content, true);
     let obstical_2d_array = current_2d_array.clone();
 
-    let mut position = XY { x: 0, y: 0 };
+    let mut position = Cords { x: 0, y: 0 };
     let mut current_direction = Direction::Up;
 
     if position.x == 0 && position.y == 0 {
@@ -162,7 +156,7 @@ pub(crate) fn day6_2_guard_gallivant() {
         }
     }
 
-    let mut all_vectors: Vec<(XY, Direction)> = vec![];
+    let mut all_vectors: Vec<(Cords, Direction)> = vec![];
 
     let mut direction_changed = false;
     let starting_position = position.clone();
@@ -255,7 +249,7 @@ pub(crate) fn day6_2_guard_gallivant() {
         all_vectors.push((position.clone(), current_direction.clone()));
     }
 
-    let infinite_loops: Mutex<Vec<(XY, Vec<XY>)>> = Mutex::new(vec![]);
+    let infinite_loops: Mutex<Vec<(Cords, Vec<Cords>)>> = Mutex::new(vec![]);
 
     // Goes from 10 seconds to 3 seconds using rayon.
     remove_duplicates_maintain_order(all_vectors.clone())
@@ -291,14 +285,14 @@ pub(crate) fn day6_2_guard_gallivant() {
 
 fn just_keep_swimming(
     current_2d_array: &mut Vec<Vec<char>>,
-    mut position: XY,
+    mut position: Cords,
     mut current_direction: Direction,
-) -> (usize, Vec<XY>) {
+) -> (usize, Vec<Cords>) {
     let mut result = 0;
 
     let mut obstical_direction: Option<Direction> = None;
 
-    let mut loop_positions: HashSet<XY> = HashSet::new();
+    let mut loop_positions: HashSet<Cords> = HashSet::new();
     let mut seen_position = 0;
 
     let mut direction_changed = false;
@@ -439,7 +433,7 @@ fn just_keep_swimming(
     return (result, loop_positions.into_iter().collect());
 }
 
-fn remove_duplicate_loops(infinite_loops: Vec<(XY, Vec<XY>)>) -> Vec<(XY, Vec<XY>)> {
+fn remove_duplicate_loops(infinite_loops: Vec<(Cords, Vec<Cords>)>) -> Vec<(Cords, Vec<Cords>)> {
     let mut unique_loops = HashSet::new();
 
     for mut loop_vec in infinite_loops {
@@ -450,7 +444,7 @@ fn remove_duplicate_loops(infinite_loops: Vec<(XY, Vec<XY>)>) -> Vec<(XY, Vec<XY
     unique_loops.into_iter().collect() // Convert the HashSet back to a Vec
 }
 
-fn remove_duplicates_maintain_order(coords: Vec<(XY, Direction)>) -> Vec<(XY, Direction)> {
+fn remove_duplicates_maintain_order(coords: Vec<(Cords, Direction)>) -> Vec<(Cords, Direction)> {
     let mut seen = HashSet::new();
     let mut result = Vec::new();
 
@@ -463,17 +457,10 @@ fn remove_duplicates_maintain_order(coords: Vec<(XY, Direction)>) -> Vec<(XY, Di
     result
 }
 
-fn print_2d_array(input: &Vec<Vec<char>>) {
-    println!("\n");
-    for array in input {
-        println!("{:?}\n", array);
-    }
-}
-
 #[allow(dead_code)]
 fn print_onto_2d_array(
-    obstical_position: &XY,
-    positions: &Vec<XY>,
+    obstical_position: &Cords,
+    positions: &Vec<Cords>,
     mut current_2d_array: Vec<Vec<char>>,
 ) {
     println!("");
@@ -496,7 +483,7 @@ fn print_onto_2d_array(
     print_2d_array(&current_2d_array);
 }
 
-fn solve_position(position: &mut XY, direction: &Direction) {
+fn solve_position(position: &mut Cords, direction: &Direction) {
     match direction {
         Direction::Up => position.x -= 1,
         Direction::Down => position.x += 1,
@@ -505,7 +492,7 @@ fn solve_position(position: &mut XY, direction: &Direction) {
     }
 }
 
-fn stop_moving(current_2d_array: &mut Vec<Vec<char>>, position: &XY) {
+fn stop_moving(current_2d_array: &mut Vec<Vec<char>>, position: &Cords) {
     *current_2d_array
         .get_mut(position.x)
         .unwrap()
@@ -513,7 +500,11 @@ fn stop_moving(current_2d_array: &mut Vec<Vec<char>>, position: &XY) {
         .unwrap() = 'X';
 }
 
-fn move_position(current_2d_array: &mut Vec<Vec<char>>, position: &mut XY, direction: &Direction) {
+fn move_position(
+    current_2d_array: &mut Vec<Vec<char>>,
+    position: &mut Cords,
+    direction: &Direction,
+) {
     *current_2d_array
         .get_mut(position.x)
         .unwrap()
@@ -529,34 +520,34 @@ fn move_position(current_2d_array: &mut Vec<Vec<char>>, position: &mut XY, direc
         .unwrap() = '^';
 }
 
-fn content_to_2d_array(input: &str) -> Vec<Vec<char>> {
-    let mut output = vec![];
+// fn content_to_2d_array(input: &str) -> Vec<Vec<char>> {
+//     let mut output = vec![];
 
-    let mut working_array: Vec<char> = vec![];
+//     let mut working_array: Vec<char> = vec![];
 
-    for char in input.chars() {
-        if char == '\n' {
-            output.push(working_array.clone());
-            working_array.clear();
-        } else {
-            working_array.push(char);
-        }
-    }
+//     for char in input.chars() {
+//         if char == '\n' {
+//             output.push(working_array.clone());
+//             working_array.clear();
+//         } else {
+//             working_array.push(char);
+//         }
+//     }
 
-    output.push(working_array);
+//     output.push(working_array);
 
-    // Add boundary
-    let width = output[0].len();
-    let mut bordered_output = vec![vec!['*'; width + 2]];
+//     // Add boundary
+//     let width = output[0].len();
+//     let mut bordered_output = vec![vec!['*'; width + 2]];
 
-    for row in output {
-        let mut bordered_row = vec!['*'];
-        bordered_row.extend(row);
-        bordered_row.push('*');
-        bordered_output.push(bordered_row);
-    }
+//     for row in output {
+//         let mut bordered_row = vec!['*'];
+//         bordered_row.extend(row);
+//         bordered_row.push('*');
+//         bordered_output.push(bordered_row);
+//     }
 
-    bordered_output.push(vec!['*'; width + 2]);
+//     bordered_output.push(vec!['*'; width + 2]);
 
-    bordered_output
-}
+//     bordered_output
+// }

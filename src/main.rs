@@ -10,6 +10,7 @@ use days::{
     day5_print_queue::{day5_2_print_queue, day5_print_queue},
     day6_guard_gallivant::{day6_2_guard_gallivant, day6_guard_gallivant},
     day7_bridge_repair::{day7_2_bridge_repair, day7_bridge_repair},
+    day8_resonant_collinearity::{day8_2_resonant_collinearity, day8_resonant_collinearity},
 };
 
 mod days;
@@ -36,6 +37,8 @@ fn main() {
                 "6.2" => day6_2_guard_gallivant(),
                 "7" => day7_bridge_repair(),
                 "7.2" => day7_2_bridge_repair(),
+                "8" => day8_resonant_collinearity(),
+                "8.2" => day8_2_resonant_collinearity(),
                 _ => panic!("Not a valid day"),
             }
         }

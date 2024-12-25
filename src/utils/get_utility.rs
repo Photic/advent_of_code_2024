@@ -28,3 +28,52 @@ pub(crate) fn end_day(result: &usize, timer: &Instant) {
 // pub(crate) fn end_day_number(result: &usize, timer: &Instant) {
 //     println!("Answer: {}, elapsed: {:?}", result, timer.elapsed());
 // }
+
+pub(crate) fn print_2d_array(input: &Vec<Vec<char>>) {
+    println!("\n");
+    for array in input {
+        println!("{:?}\n", array);
+    }
+}
+
+pub(crate) fn content_to_2d_array(input: &str, border: bool) -> Vec<Vec<char>> {
+    let mut output = vec![];
+
+    let mut working_array: Vec<char> = vec![];
+
+    for char in input.chars() {
+        if char == '\n' {
+            output.push(working_array.clone());
+            working_array.clear();
+        } else {
+            working_array.push(char);
+        }
+    }
+
+    output.push(working_array);
+
+    if border {
+        // Add boundary
+        let width = output[0].len();
+        let mut bordered_output = vec![vec!['*'; width + 2]];
+
+        for row in output {
+            let mut bordered_row = vec!['*'];
+            bordered_row.extend(row);
+            bordered_row.push('*');
+            bordered_output.push(bordered_row);
+        }
+
+        bordered_output.push(vec!['*'; width + 2]);
+
+        return bordered_output;
+    }
+
+    output
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Copy, Ord, PartialOrd)]
+pub(crate) struct Cords {
+    pub(crate) x: usize,
+    pub(crate) y: usize,
+}
