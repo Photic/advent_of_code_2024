@@ -3,7 +3,7 @@ use std::fmt;
 use crate::utils::get_utility::{end_day, new_position_in_direction, start_day, Cord, Direction};
 
 pub(crate) fn day10_hoof_it() {
-    println!("Running day10 Disk Fragmenter");
+    println!("Running day10 Hoof It");
 
     let (content, timer) = start_day("./src/inputs/day10.txt");
 
@@ -141,7 +141,58 @@ impl fmt::Display for Node {
 }
 
 pub(crate) fn day10_2_hoof_it() {
-    println!("Running day10.2 Disk Fragmenter");
+    println!("Running day10.2 Hoof It");
 
-    let (content, timer) = start_day("./src/inputs/day10_test.txt");
+    let (content, timer) = start_day("./src/inputs/day10.txt");
+
+    let node_2d_array = content_to_node_2d_array(&content);
+
+    let result = walk_node_2d_array_2(&node_2d_array);
+
+    // print_2d_node_array(&node_2d_array);
+
+    end_day(&result, &timer);
+}
+
+fn walk_node_2d_array_2(node_2d_array: &Vec<Vec<Node>>) -> usize {
+    let mut result = 0;
+
+    for (x, node_array) in node_2d_array.iter().enumerate() {
+        for (y, node) in node_array.iter().enumerate() {
+            if node.hight == 0 {
+                let mut working_array = node_2d_array.clone();
+                result += find_nines_2(
+                    node_2d_array.get(x).unwrap().get(y).unwrap().clone(),
+                    &mut working_array,
+                );
+            }
+        }
+    }
+
+    result
+}
+
+fn find_nines_2(start: Node, node_2d_array: &mut Vec<Vec<Node>>) -> usize {
+    let mut result = 0;
+
+    let mut queue = vec![start];
+
+    while let Some(working_node) = queue.pop() {
+        if working_node.hight == 9 {
+            result += 1;
+            continue;
+        }
+
+        for edge in get_edge(working_node, &node_2d_array) {
+            let node_pointer = node_2d_array
+                .get_mut(edge.x)
+                .unwrap()
+                .get_mut(edge.y)
+                .unwrap();
+
+            queue.push(node_pointer.clone());
+        }
+    }
+
+    result
 }
