@@ -73,7 +73,36 @@ pub(crate) fn content_to_2d_array(input: &str, border: bool) -> Vec<Vec<char>> {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Copy, Ord, PartialOrd)]
-pub(crate) struct Cords {
+pub(crate) struct Cord {
     pub(crate) x: usize,
     pub(crate) y: usize,
+}
+
+#[derive(PartialEq, Clone, Debug, Eq, Hash)]
+pub(crate) enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
+pub(crate) fn new_position_in_direction(position: &Cord, direction: &Direction) -> Option<Cord> {
+    match direction {
+        Direction::Up => Some(Cord {
+            x: position.x.checked_sub(1)?,
+            y: position.y,
+        }),
+        Direction::Down => Some(Cord {
+            x: position.x.checked_add(1)?,
+            y: position.y,
+        }),
+        Direction::Left => Some(Cord {
+            x: position.x,
+            y: position.y.checked_sub(1)?,
+        }),
+        Direction::Right => Some(Cord {
+            x: position.x,
+            y: position.y.checked_add(1)?,
+        }),
+    }
 }

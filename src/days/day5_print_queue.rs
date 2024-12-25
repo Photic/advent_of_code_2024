@@ -1,4 +1,4 @@
-use crate::utils::get_utility::{end_day, start_day};
+use crate::utils::get_utility::{end_day, start_day, Cord};
 
 pub(crate) fn day5_print_queue() {
     println!("Running day5 Print Queue");
@@ -26,7 +26,7 @@ pub(crate) fn day5_print_queue() {
 }
 
 fn produce_pages_that_fits(
-    ordering_rules: Vec<XY>,
+    ordering_rules: Vec<Cord>,
     pages_to_produce: Vec<Vec<usize>>,
     pages_that_fits: &mut Vec<Vec<usize>>,
 ) {
@@ -118,14 +118,8 @@ pub(crate) fn day5_2_print_queue() {
     end_day(&result, &timer);
 }
 
-#[derive(Debug, Clone, PartialEq)]
-struct XY {
-    x: usize,
-    y: usize,
-}
-
-fn format_files(input: &str) -> (Vec<XY>, Vec<Vec<usize>>) {
-    let mut ordering_rules: Vec<XY> = vec![];
+fn format_files(input: &str) -> (Vec<Cord>, Vec<Vec<usize>>) {
+    let mut ordering_rules: Vec<Cord> = vec![];
     let mut pages_to_produce: Vec<Vec<usize>> = vec![];
 
     let mut left_digit = String::with_capacity(2);
@@ -157,7 +151,7 @@ fn format_files(input: &str) -> (Vec<XY>, Vec<Vec<usize>>) {
         }
 
         if left_digit.len() == 2 && right_digit.len() == 2 {
-            ordering_rules.push(XY {
+            ordering_rules.push(Cord {
                 x: left_digit.parse().expect("Could not parse int"),
                 y: right_digit.parse().expect("Could not parse int"),
             });

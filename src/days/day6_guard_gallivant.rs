@@ -2,15 +2,9 @@ use std::{collections::HashSet, sync::Mutex, vec};
 
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
-use crate::utils::get_utility::{content_to_2d_array, end_day, print_2d_array, start_day, Cords};
-
-#[derive(PartialEq, Clone, Debug, Eq, Hash)]
-enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-}
+use crate::utils::get_utility::{
+    content_to_2d_array, end_day, print_2d_array, start_day, Cord, Direction,
+};
 
 pub(crate) fn day6_guard_gallivant() {
     println!("Running day6 Guard Gallivant");
@@ -19,7 +13,7 @@ pub(crate) fn day6_guard_gallivant() {
 
     let mut current_2d_array = content_to_2d_array(&content, true);
 
-    let mut position = Cords { x: 0, y: 0 };
+    let mut position = Cord { x: 0, y: 0 };
     let mut current_direction = Direction::Up;
     let mut direction_changed = false;
 
@@ -138,7 +132,7 @@ pub(crate) fn day6_2_guard_gallivant() {
     let mut current_2d_array = content_to_2d_array(&content, true);
     let obstical_2d_array = current_2d_array.clone();
 
-    let mut position = Cords { x: 0, y: 0 };
+    let mut position = Cord { x: 0, y: 0 };
     let mut current_direction = Direction::Up;
 
     if position.x == 0 && position.y == 0 {
@@ -156,7 +150,7 @@ pub(crate) fn day6_2_guard_gallivant() {
         }
     }
 
-    let mut all_vectors: Vec<(Cords, Direction)> = vec![];
+    let mut all_vectors: Vec<(Cord, Direction)> = vec![];
 
     let mut direction_changed = false;
     let starting_position = position;
@@ -249,7 +243,7 @@ pub(crate) fn day6_2_guard_gallivant() {
         all_vectors.push((position, current_direction.clone()));
     }
 
-    let infinite_loops: Mutex<Vec<(Cords, Vec<Cords>)>> = Mutex::new(vec![]);
+    let infinite_loops: Mutex<Vec<(Cord, Vec<Cord>)>> = Mutex::new(vec![]);
 
     // Goes from 10 seconds to 3 seconds using rayon.
     remove_duplicates_maintain_order(all_vectors.clone())
@@ -285,14 +279,14 @@ pub(crate) fn day6_2_guard_gallivant() {
 
 fn just_keep_swimming(
     current_2d_array: &mut [Vec<char>],
-    mut position: Cords,
+    mut position: Cord,
     mut current_direction: Direction,
-) -> (usize, Vec<Cords>) {
+) -> (usize, Vec<Cord>) {
     let mut result = 0;
 
     let mut obstical_direction: Option<Direction> = None;
 
-    let mut loop_positions: HashSet<Cords> = HashSet::new();
+    let mut loop_positions: HashSet<Cord> = HashSet::new();
     let mut seen_position = 0;
 
     let mut direction_changed = false;
@@ -433,7 +427,7 @@ fn just_keep_swimming(
     return (result, loop_positions.into_iter().collect());
 }
 
-fn remove_duplicate_loops(infinite_loops: Vec<(Cords, Vec<Cords>)>) -> Vec<(Cords, Vec<Cords>)> {
+fn remove_duplicate_loops(infinite_loops: Vec<(Cord, Vec<Cord>)>) -> Vec<(Cord, Vec<Cord>)> {
     let mut unique_loops = HashSet::new();
 
     for mut loop_vec in infinite_loops {
@@ -444,7 +438,7 @@ fn remove_duplicate_loops(infinite_loops: Vec<(Cords, Vec<Cords>)>) -> Vec<(Cord
     unique_loops.into_iter().collect() // Convert the HashSet back to a Vec
 }
 
-fn remove_duplicates_maintain_order(coords: Vec<(Cords, Direction)>) -> Vec<(Cords, Direction)> {
+fn remove_duplicates_maintain_order(coords: Vec<(Cord, Direction)>) -> Vec<(Cord, Direction)> {
     let mut seen = HashSet::new();
     let mut result = Vec::new();
 
@@ -459,18 +453,18 @@ fn remove_duplicates_maintain_order(coords: Vec<(Cords, Direction)>) -> Vec<(Cor
 
 #[allow(dead_code)]
 fn print_onto_2d_array(
-    obstical_position: &Cords,
-    positions: &Vec<Cords>,
+    obstical_position: &Cord,
+    positions: &Vec<Cord>,
     mut current_2d_array: Vec<Vec<char>>,
 ) {
     println!();
     println!("obstacle: {:?}", obstical_position);
     println!("positions: {:?}", positions);
-    for cords in positions {
+    for cord in positions {
         *current_2d_array
-            .get_mut(cords.x)
+            .get_mut(cord.x)
             .unwrap()
-            .get_mut(cords.y)
+            .get_mut(cord.y)
             .unwrap() = 'X';
     }
 
@@ -483,7 +477,7 @@ fn print_onto_2d_array(
     print_2d_array(&current_2d_array);
 }
 
-fn solve_position(position: &mut Cords, direction: &Direction) {
+fn solve_position(position: &mut Cord, direction: &Direction) {
     match direction {
         Direction::Up => position.x -= 1,
         Direction::Down => position.x += 1,
@@ -492,7 +486,7 @@ fn solve_position(position: &mut Cords, direction: &Direction) {
     }
 }
 
-fn stop_moving(current_2d_array: &mut [Vec<char>], position: &Cords) {
+fn stop_moving(current_2d_array: &mut [Vec<char>], position: &Cord) {
     *current_2d_array
         .get_mut(position.x)
         .unwrap()
@@ -500,7 +494,7 @@ fn stop_moving(current_2d_array: &mut [Vec<char>], position: &Cords) {
         .unwrap() = 'X';
 }
 
-fn move_position(current_2d_array: &mut [Vec<char>], position: &mut Cords, direction: &Direction) {
+fn move_position(current_2d_array: &mut [Vec<char>], position: &mut Cord, direction: &Direction) {
     *current_2d_array
         .get_mut(position.x)
         .unwrap()
