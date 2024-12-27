@@ -23,30 +23,27 @@ fn play_with_stones(blinks: usize, number_array: Vec<u64>) -> usize {
     }
 
     for _ in 0..blinks {
-        let stonework = unique_stones.clone();
-        for (stone, count) in stonework.iter() {
+        let mut next_stones = HashMap::with_capacity(unique_stones.len());
+
+        for (stone, count) in &unique_stones {
             if *count == 0 {
                 continue;
             }
-
             if *stone == 0 {
-                *unique_stones.entry(1).or_insert(0) += *count;
-                *unique_stones.entry(0).or_insert(0) -= *count;
+                *next_stones.entry(1).or_insert(0) += *count;
             } else {
                 let digits = stone.ilog10() + 1;
-
                 if digits % 2 == 0 {
                     let power = 10_u64.pow(digits / 2);
-
-                    *unique_stones.entry(stone / power).or_insert(0) += *count;
-                    *unique_stones.entry(stone % power).or_insert(0) += *count;
-                    *unique_stones.entry(*stone).or_insert(0) -= *count;
+                    *next_stones.entry(stone / power).or_insert(0) += *count;
+                    *next_stones.entry(stone % power).or_insert(0) += *count;
                 } else {
-                    *unique_stones.entry(stone * 2024).or_insert(0) += *count;
-                    *unique_stones.entry(*stone).or_insert(0) -= *count;
+                    *next_stones.entry(stone * 2024).or_insert(0) += *count;
                 }
             }
         }
+
+        unique_stones = next_stones;
     }
 
     unique_stones.values().sum()
