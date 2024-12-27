@@ -1,6 +1,8 @@
 use std::fmt;
 
-use crate::utils::get_utility::{end_day, new_position_in_direction, start_day, Cord, Direction};
+use crate::utils::get_utility::{
+    end_day, new_position_in_direction, start_day, Cord, Direction, Node,
+};
 
 pub(crate) fn day10_hoof_it() {
     println!("Running day10 Hoof It");
@@ -22,7 +24,7 @@ fn walk_node_2d_array(node_2d_array: &Vec<Vec<Node>>) -> usize {
 
     for (x, node_array) in node_2d_array.iter().enumerate() {
         for (y, node) in node_array.iter().enumerate() {
-            if node.hight == 0 {
+            if node.height == 0 {
                 let mut working_array = node_2d_array.clone();
                 result += find_nines(
                     node_2d_array.get(x).unwrap().get(y).unwrap().clone(),
@@ -41,7 +43,7 @@ fn find_nines(start: Node, node_2d_array: &mut Vec<Vec<Node>>) -> usize {
     let mut queue = vec![start];
 
     while let Some(working_node) = queue.pop() {
-        if working_node.hight == 9 {
+        if working_node.height == 9 {
             result += 1;
             continue;
         }
@@ -76,7 +78,7 @@ fn get_edge(start_node: Node, node_2d_array: &Vec<Vec<Node>>) -> Vec<Cord> {
         if let Some(new_cord) = new_position_in_direction(&start_node.cord, &direction) {
             if let Some(row) = node_2d_array.get(new_cord.x) {
                 if let Some(new_node) = row.get(new_cord.y) {
-                    if new_node.hight == start_node.hight + 1 && !new_node.visited {
+                    if new_node.height == start_node.height + 1 && !new_node.visited {
                         un_explored_nodes.push(new_node.cord);
                     }
                 }
@@ -109,7 +111,7 @@ fn content_to_node_2d_array(input: &str) -> Vec<Vec<Node>> {
             working_vec.clear();
         } else {
             working_vec.push(Node {
-                hight: char.to_string().parse().expect("Could not parse int"),
+                height: char.to_string().parse().expect("Could not parse int"),
                 cord: Cord { x: 0, y: 0 },
                 visited: false,
             });
@@ -125,19 +127,6 @@ fn content_to_node_2d_array(input: &str) -> Vec<Vec<Node>> {
     }
 
     output
-}
-
-#[derive(Clone, Debug)]
-struct Node {
-    hight: usize,
-    cord: Cord,
-    visited: bool,
-}
-
-impl fmt::Display for Node {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.hight)
-    }
 }
 
 pub(crate) fn day10_2_hoof_it() {
@@ -159,7 +148,7 @@ fn walk_node_2d_array_2(node_2d_array: &Vec<Vec<Node>>) -> usize {
 
     for (x, node_array) in node_2d_array.iter().enumerate() {
         for (y, node) in node_array.iter().enumerate() {
-            if node.hight == 0 {
+            if node.height == 0 {
                 let mut working_array = node_2d_array.clone();
                 result += find_nines_2(
                     node_2d_array.get(x).unwrap().get(y).unwrap().clone(),
@@ -178,7 +167,7 @@ fn find_nines_2(start: Node, node_2d_array: &mut Vec<Vec<Node>>) -> usize {
     let mut queue = vec![start];
 
     while let Some(working_node) = queue.pop() {
-        if working_node.hight == 9 {
+        if working_node.height == 9 {
             result += 1;
             continue;
         }

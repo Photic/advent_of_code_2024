@@ -1,4 +1,4 @@
-use std::{fs::File, io::Read, time::Instant};
+use std::{fmt, fs::File, io::Read, time::Instant};
 
 pub(crate) fn start_day(path: &str) -> (String, Instant) {
     let timer = Instant::now();
@@ -72,7 +72,7 @@ pub(crate) fn content_to_2d_array(input: &str, border: bool) -> Vec<Vec<char>> {
     output
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Copy, Ord, PartialOrd)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Copy, Ord, PartialOrd, Default)]
 pub(crate) struct Cord {
     pub(crate) x: usize,
     pub(crate) y: usize,
@@ -104,5 +104,25 @@ pub(crate) fn new_position_in_direction(position: &Cord, direction: &Direction) 
             x: position.x,
             y: position.y.checked_add(1)?,
         }),
+    }
+}
+
+pub(crate) const DIRECTIONS: [Direction; 4] = [
+    Direction::Up,
+    Direction::Down,
+    Direction::Left,
+    Direction::Right,
+];
+
+#[derive(Clone, Debug)]
+pub(crate) struct Node {
+    pub(crate) height: usize,
+    pub(crate) cord: Cord,
+    pub(crate) visited: bool,
+}
+
+impl fmt::Display for Node {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.height)
     }
 }
