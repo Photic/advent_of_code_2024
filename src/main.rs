@@ -5,6 +5,7 @@ use std::env;
 use days::{
     day10_hoof_it::{day10_2_hoof_it, day10_hoof_it},
     day11_plutonian_pebbles::{day11_2_plutonian_pebbles, day11_plutonian_pebbles},
+    day12_garden_groups::{day12_2_garden_groups, day12_garden_groups},
     day1_historian_hysteria::{day1_2_historian_hysteria, day1_historian_hysteria},
     day2_red_nosed_reports::{day2_2_red_nosed_reports, day2_red_nosed_reports},
     day3_mull_it_over::{day3_2_mull_it_over, day3_mull_it_over},
@@ -48,6 +49,8 @@ fn main() {
                 "10.2" => day10_2_hoof_it(),
                 "11" => day11_plutonian_pebbles(),
                 "11.2" => day11_2_plutonian_pebbles(),
+                "12" => day12_garden_groups(),
+                "12.2" => day12_2_garden_groups(),
                 _ => panic!("Not a valid day"),
             }
         }
