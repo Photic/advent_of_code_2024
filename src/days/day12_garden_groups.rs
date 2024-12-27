@@ -150,34 +150,6 @@ fn content_to_garden_2d_area(input: &str) -> Vec<Vec<Node>> {
     }
 
     output
-
-    // let rows = output.len();
-    // let cols = output[0].len();
-    // let mut bordered_output = vec![
-    //     vec![
-    //         Node {
-    //             plant: '*',
-    //             cord: Cord { x: 0, y: 0 },
-    //             visited: false,
-    //             edges: 0,
-    //         };
-    //         cols + 2
-    //     ];
-    //     rows + 2
-    // ];
-
-    // for (x, node_array) in output.iter().enumerate() {
-    //     for (y, node) in node_array.iter().enumerate() {
-    //         bordered_output[x + 1][y + 1] = Node {
-    //             plant: node.plant,
-    //             cord: Cord { x: x + 1, y: y + 1 },
-    //             visited: node.visited,
-    //             edges: node.edges,
-    //         };
-    //     }
-    // }
-
-    // bordered_output
 }
 
 pub(crate) fn day12_2_garden_groups() {
