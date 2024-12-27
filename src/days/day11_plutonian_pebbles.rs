@@ -33,16 +33,16 @@ fn play_with_stones(blinks: usize, number_array: Vec<u64>) -> usize {
                 *unique_stones.entry(1).or_insert(0) += *count;
                 *unique_stones.entry(0).or_insert(0) -= *count;
             } else {
-                if stone.ilog10() % 2 == 1 {
-                    let digits_count = stone.ilog10() + 1;
-                    let power = 10_u64.pow(digits_count / 2);
+                let digits = stone.ilog10() + 1;
+
+                if digits % 2 == 0 {
+                    let power = 10_u64.pow(digits / 2);
 
                     *unique_stones.entry(stone / power).or_insert(0) += *count;
                     *unique_stones.entry(stone % power).or_insert(0) += *count;
                     *unique_stones.entry(*stone).or_insert(0) -= *count;
                 } else {
-                    let new_value = stone * 2024;
-                    *unique_stones.entry(new_value).or_insert(0) += *count;
+                    *unique_stones.entry(stone * 2024).or_insert(0) += *count;
                     *unique_stones.entry(*stone).or_insert(0) -= *count;
                 }
             }
